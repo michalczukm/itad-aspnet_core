@@ -32,6 +32,34 @@ namespace Goyello.ITADApp.Controllers
             return CreatedAtAction("Get", new { id = item.Id }, createdItem);
         }
 
+        [HttpPut, Route("{id:int}")]
+        public IActionResult Update([FromBody] Item item, int id)
+        {
+            var result = _itemsService.UpdateFor(id, item);
+            if (result) 
+            {
+                return Ok();
+            } 
+            else 
+            {
+                return BadRequest("Cannot remove object");
+            }
+        }
+
+        [HttpDelete, Route("{id:int}")]
+        public IActionResult Delete(int id) 
+        {
+            var result = _itemsService.DeleteById(id);
+            if (result) 
+            {
+                return Ok();
+            } 
+            else 
+            {
+                return BadRequest("Cannot remove object");
+            }
+        }
+
         [HttpGet, Route("alwaysbad")]
         public IActionResult AlwaysBadRequest() {
             return BadRequest(new {
